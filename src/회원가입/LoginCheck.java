@@ -1,5 +1,9 @@
 package 회원가입;
 
+/**********************
+  로그인 관련 MySQL 클래스
+**********************/
+
 import java.sql.*;
 
 public class LoginCheck {

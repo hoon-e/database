@@ -1,5 +1,9 @@
 package 회원가입;
 
+/**********************
+  회원가입 관련 MySQL 클래스
+**********************/
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;

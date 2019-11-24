@@ -7,6 +7,7 @@ import javax.swing.border.*;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 
+import 고객.Center;
 import 회원가입.Login;
 
 import javax.swing.Box;
@@ -16,14 +17,30 @@ import java.awt.event.KeyEvent;
 public class AdminMainShow extends JFrame {
 	private JFrame mainFrame = new JFrame();
 	private JPanel mainPanel;
+	private JPanel subPanel;
 	private JMenuBar menu;
+	private Center center = new Center();
 	
 	class ClickListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
 			String clicked = e.getActionCommand();
 				switch(clicked) {
 					case "센터추가":
+						if(subPanel.isEnabled()) {
+							mainPanel.remove(subPanel);
+						}
+						subPanel = center.inputCustomer();
+						mainPanel.add(subPanel);
+						mainFrame.repaint();
+						break;
 					case "센터보기":
+						if(subPanel.isEnabled()) {
+							mainPanel.remove(subPanel);
+						}
+						subPanel = center.showCustomer();
+						mainPanel.add(subPanel);
+						mainFrame.repaint();
+						break;
 					case "센터수정":
 					case "센터삭제":
 					case "부서추가":
@@ -58,16 +75,17 @@ public class AdminMainShow extends JFrame {
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		// mainFrame.setLocationRelativeTo(null);
 		mainFrame.setLocation(500, 250);
-    mainFrame.setPreferredSize(new Dimension(900, 600));
+   mainFrame.setPreferredSize(new Dimension(800, 600));
 		
 		// mainPanel 생성
 		mainPanel = new JPanel();
-		mainPanel.setBorder(new EmptyBorder(0, 0, 900, 600));
+		mainPanel.setBorder(new EmptyBorder(0, 0, 800, 600));
 		setContentPane(mainPanel);
 		mainPanel.setLayout(null);
-		
 		mainFrame.add(mainPanel);
-		mainPanel.setBounds(0, 0, 900, 600);
+		mainPanel.setBounds(0, 0, 800, 600);
+		
+		subPanel = new JPanel();
 		
 		menu = new JMenuBar();
 		// 관리자 메뉴 생성 : 센터관리, 부서관리, 직원관리, 고객관리, AS목록, 로그아웃
@@ -92,25 +110,11 @@ public class AdminMainShow extends JFrame {
 			showMenu[i] = new JMenu(menuTitle[i]);
 		}
 		
-		showMenu[6].addMenuListener(new MenuListener() {
+		showMenu[6].addMouseListener(new MouseAdapter() {
 			@Override
-			public void menuSelected(MenuEvent e) {
-				System.out.println(e.getSource());
-				if( e.getSource() == "로그아웃") {
-					System.out.println("로그아웃!");
-					mainFrame.dispose();
-					new Login();
-				}
-			}
-
-			@Override
-			public void menuCanceled(MenuEvent e) {
-				// TODO Auto-generated method stub
-			}
-
-			@Override
-			public void menuDeselected(MenuEvent e) {
-				// TODO Auto-generated method stub
+			public void mousePressed(MouseEvent e) {
+				mainFrame.dispose();
+				new Login();
 			}
 		});
 		
@@ -130,12 +134,12 @@ public class AdminMainShow extends JFrame {
 
 		// login info
 		JLabel logininfo = new JLabel();
-		logininfo.setText("관리자님, 반갑습니다.   ");
+		logininfo.setText("관리자님, 반갑습니다.      ");
 		logininfo.setForeground(Color.blue);
 		logininfo.setDisplayedMnemonic(KeyEvent.VK_S);
 		
 		menu.add(logininfo);
-		menu.setBounds(0, 0, 890, 32);
+		menu.setBounds(0, 0, 800, 30);
 		mainPanel.add(menu);
 		
 		mainFrame.pack();

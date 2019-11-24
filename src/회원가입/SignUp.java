@@ -153,6 +153,7 @@ public class SignUp extends JFrame{
 				s.signUP(ID, PW, NAME, AGE, GENDER, CENTER);
 			}
 		});
+		
 		Signup.setBounds(220, 440, 80, 30);
 		signupPanel.add(Signup);
 		

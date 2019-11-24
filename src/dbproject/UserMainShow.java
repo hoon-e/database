@@ -47,16 +47,16 @@ public class UserMainShow extends JFrame{
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		// mainFrame.setLocationRelativeTo(null);
 		mainFrame.setLocation(500, 250);
-    mainFrame.setPreferredSize(new Dimension(900, 600));
+    mainFrame.setPreferredSize(new Dimension(800, 600));
 		
 		// mainPanel 생성
 		mainPanel = new JPanel();
-		mainPanel.setBorder(new EmptyBorder(0, 0, 900, 600));
+		mainPanel.setBorder(new EmptyBorder(0, 0, 800, 600));
 		setContentPane(mainPanel);
 		mainPanel.setLayout(null);
 		
 		mainFrame.add(mainPanel);
-		mainPanel.setBounds(0, 0, 900, 600);
+		mainPanel.setBounds(0, 0, 800, 600);
 		
 		menu = new JMenuBar();
 		//  사용자 메뉴 생성 : 센터정보, 부서정보, 직원정보, AS신청, 정보수정,  로그아웃
@@ -92,12 +92,12 @@ public class UserMainShow extends JFrame{
 
 		// login info
 		JLabel logininfo = new JLabel();
-		logininfo.setText(username + "님, 반갑습니다.   ");
+		logininfo.setText(username + "님, 반갑습니다.      ");
 		logininfo.setForeground(Color.blue);
 		logininfo.setDisplayedMnemonic(KeyEvent.VK_S);
 		
 		menu.add(logininfo);
-		menu.setBounds(0, 0, 890, 32);
+		menu.setBounds(0, 0, 800, 32);
 		mainPanel.add(menu);
 		
 		mainFrame.pack();
