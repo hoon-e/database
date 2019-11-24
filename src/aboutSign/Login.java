@@ -8,7 +8,7 @@ import dbproject.*;
 
 public class Login extends JFrame{
 
-	public JPanel loginPanel;
+	private JPanel loginPanel;
 	private JTextField loginid;
 	private JTextField loginpasswd;
 	
@@ -32,12 +32,13 @@ public class Login extends JFrame{
 		id.setBounds(40, 64, 47, 15);
 		loginPanel.add(id);
 		
+		// loginID
 		loginid = new JTextField();
-		loginid.setText("  ID를 입력하세요.");
 		loginid.setBounds(90, 58, 166, 30);
 		loginPanel.add(loginid);
 		loginid.setColumns(10);
 		
+		// login Password
 		JLabel pwd = new JLabel("PW");
 		pwd.setHorizontalAlignment(SwingConstants.CENTER);
 		pwd.setBounds(40, 103, 47, 15);
@@ -49,6 +50,7 @@ public class Login extends JFrame{
 		loginPanel.add(loginpasswd);
 		loginpasswd.setColumns(10);
 		
+		// login Button
 		JButton loginButton = new JButton("로그인");
 		loginButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -60,9 +62,10 @@ public class Login extends JFrame{
 				logincheck = loginCheck.doLogin(ID, PW);
 				
 				if(!logincheck) {
-					JOptionPane.showMessageDialog(null, " ID 또는 비밀번호를 확인하세요");
+					JOptionPane.showMessageDialog(null, "ID 또는 비밀번호를 확인하세요");
 				}else {
 					setVisible(false);
+					new MainShow();
 				}
 			}
 		});
@@ -70,34 +73,40 @@ public class Login extends JFrame{
 		loginButton.setBounds(265, 58, 80, 65);
 		loginPanel.add(loginButton);
 		
+		// signup Button
 		JButton signup = new JButton("회원가입");
 		signup.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				setVisible(false);
-				new MainShow();
+				dispose();
+				new SignUp();
 			}
 		});
 		
 		signup.setBounds(265, 134, 80, 30);
 		loginPanel.add(signup);
 		
+		// find ID
 		JButton findid = new JButton("ID찾기");
 		findid.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
 			//	 
 		});
-		findid.setBounds(90, 134, 78, 30);
+		findid.setBounds(85, 134, 78, 30);
 		loginPanel.add(findid);
 		
+		// find PW
 		JButton findpw = new JButton("PW찾기");
 		findid.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
 			//
 		});
-		findpw.setBounds(178, 134, 78, 30);
+		findpw.setBounds(175, 134, 78, 30);
 		loginPanel.add(findpw);
+	
+		setLocation(800, 300);
+		setVisible(true);
 	}
 	
 	private void getInfo(JTextField id, JTextField pw) {
@@ -106,8 +115,6 @@ public class Login extends JFrame{
 	}
 	
 	public static void main(String[] args) {
-		Login start = new Login();
-		start.setLocation(800, 300);
-		start.setVisible(true);
+		new Login();
 	}
 }
