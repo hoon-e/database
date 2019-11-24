@@ -1,4 +1,4 @@
-package aboutSign;
+package 회원가입;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -13,7 +13,6 @@ public class SignUpCheck {
 	
 	public SignUpCheck() {
 		try {
-			System.out.println("회원가입 진입");
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			con = DriverManager.getConnection("jdbc:mysql://mysql:4567/ascenter","coldbrew","jaehoon");
 			System.out.println("Database Connect!");
@@ -27,7 +26,6 @@ public class SignUpCheck {
 	public void signUP(int id, String password, String name, int age, String gender, int center) {
 		String SQL = "INSERT INTO Customer VALUES (?,?,?,?,?,?);";
 		try {
-			
 			pstmt = con.prepareStatement(SQL);
 			pstmt.setInt(1, id);
 			pstmt.setString(2,  name);
@@ -74,6 +72,21 @@ public class SignUpCheck {
 			System.out.println(e);
 		}
 		return result;
+	}
+	
+	public String getName(int loginid) {
+		try {
+			String SQL = "SELECT Customer_name FROM Customer WHERE Customer_id = " + loginid + ";";
+			ResultSet rs = null;
+			rs = stmt.executeQuery(SQL);	
+			if(rs.next()) {
+				return rs.getString("Customer_name");
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return "";
 	}
 	
 	// 중복확인 검사 함수

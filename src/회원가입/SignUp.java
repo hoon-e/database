@@ -1,4 +1,4 @@
-package aboutSign;
+package 회원가입;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -6,9 +6,10 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import java.util.*;
 
-import aboutSign.Login;
+import 회원가입.Login;
+
+import java.util.*;
 
 public class SignUp extends JFrame{
 	private JPanel signupPanel;
@@ -27,7 +28,6 @@ public class SignUp extends JFrame{
 	private int CENTER = 0;
 	
 	public SignUp() {
-		
 		String[] centers = null;
 		
 		// SignUPCheck class 생성

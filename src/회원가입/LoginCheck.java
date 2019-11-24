@@ -1,4 +1,4 @@
-package aboutSign;
+package 회원가입;
 
 import java.sql.*;
 

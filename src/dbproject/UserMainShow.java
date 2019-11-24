@@ -1,32 +1,47 @@
 package dbproject;
 
-import javax.swing.*;
-
-import java.awt.event.*;
-import javax.swing.border.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.awt.*;
 
-public class MainShow extends JFrame {
+import javax.swing.Box;
+import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
+
+import 회원가입.SignUp;
+import 회원가입.SignUpCheck;
+
+public class UserMainShow extends JFrame{
 	private JFrame mainFrame = new JFrame();
 	private JPanel mainPanel;
 	private JMenuBar menu;
-
+	
 	class ClickListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
 			String clicked = e.getActionCommand();
 				switch(clicked) {
-				case "센터관리":
-				case "부서관리":
-				case "직원관리":
-				case "고객관리":
-				case "AS관리":
-				case "":
+				case "센터정보":
+				case "부서정보":
+				case "직원정보":
+				case "AS신청":
+				case "정보수정":
+				case "로그아웃":
 				}
 		}
 	}
 	
 	// 메뉴 생성 함수
-	public MainShow() {
+	public UserMainShow(int loginid) {
+		SignUpCheck c = new SignUpCheck();
+		String username = c.getName(loginid);
 		// mainFrame 생성
 		mainFrame.setTitle("AS CENTER PROGRAM");
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -44,15 +59,12 @@ public class MainShow extends JFrame {
 		mainPanel.setBounds(0, 0, 900, 600);
 		
 		menu = new JMenuBar();
-		// 관리자 메뉴 생성 : 센터관리, 부서관리, 직원관리, 고객관리, AS목록, 로그아웃
-		JMenuItem[][] menuItem = new JMenuItem[6][4];
-		String[] menuTitle = {"센터관리", "부서관리", "직원관리", "고객관리", " AS관리",  "로그아웃"};
+		//  사용자 메뉴 생성 : 센터정보, 부서정보, 직원정보, AS신청, 정보수정,  로그아웃
+		JMenuItem[][] menuItem = new JMenuItem[6][3];
+		String[] menuTitle = {"센터정보",  "부서정보", "직원정보", " AS신청", "정보수정",  "로그아웃"};
 		String[][] itemTitle = {
-				{"센터추가", "센터보기", "센터수정", "센터삭제"},
-				{"부서추가", "부서보기", "부서수정", "부서삭제"},
-				{"직원추가", "직원보기", "직원수정", "직원삭제"},
-				{"고객추가", "고객보기", "고객수정", "고객삭제"},
-				{"AS확인", "AS관리"}};
+				{},{},{},{"AS신청", "AS확인", "AS수정"}
+		};
 		
 		//  메뉴 생성
 		JMenu[] showMenu = new JMenu[6];
@@ -75,7 +87,17 @@ public class MainShow extends JFrame {
 			menu.add(showMenu[i]);
 		}
 		
-		menu.setBounds(0, 0, 900, 35);
+		// box horizontal 생성
+		menu.add(Box.createHorizontalGlue());
+
+		// login info
+		JLabel logininfo = new JLabel();
+		logininfo.setText(username + "님, 반갑습니다.   ");
+		logininfo.setForeground(Color.blue);
+		logininfo.setDisplayedMnemonic(KeyEvent.VK_S);
+		
+		menu.add(logininfo);
+		menu.setBounds(0, 0, 890, 32);
 		mainPanel.add(menu);
 		
 		mainFrame.pack();

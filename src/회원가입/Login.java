@@ -1,4 +1,4 @@
-package aboutSign;
+package 회원가입;
 
 import javax.swing.event.*;
 import javax.swing.border.*;
@@ -10,11 +10,11 @@ public class Login extends JFrame{
 
 	private JPanel loginPanel;
 	private JTextField loginid;
-	private JTextField loginpasswd;
+	private JPasswordField loginpasswd;
 	
 	private int ID;
 	private String PW = "";
-	
+		
 	public Login() {
 		setTitle("로그인");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -44,8 +44,7 @@ public class Login extends JFrame{
 		pwd.setBounds(40, 103, 47, 15);
 		loginPanel.add(pwd);
 		
-		loginpasswd = new JTextField();
-		loginpasswd.setText("  비밀번호를 입력하세요");
+		loginpasswd = new JPasswordField();
 		loginpasswd.setBounds(90, 95, 166, 30);
 		loginPanel.add(loginpasswd);
 		loginpasswd.setColumns(10);
@@ -64,8 +63,13 @@ public class Login extends JFrame{
 				if(!logincheck) {
 					JOptionPane.showMessageDialog(null, "ID 또는 비밀번호를 확인하세요");
 				}else {
-					setVisible(false);
-					new MainShow();
+					dispose();
+					if(ID == 1) { // 관리자 페이지 실행
+						new AdminMainShow();
+					}
+					else { // 사용자 페이지 실행
+						new UserMainShow(ID);
+					}
 				}
 			}
 		});
