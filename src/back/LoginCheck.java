@@ -1,4 +1,4 @@
-package 회원가입;
+package back;
 
 /**********************
   로그인 관련 MySQL 클래스

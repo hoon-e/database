@@ -1,24 +1,18 @@
 package back;
 
-/**********************
- Center관련 MySQL 클래스
-**********************/
-
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.Statement;
 
-import java.sql.PreparedStatement;
-
-public class aboutCenter {
+public class aboutDepartment {
 	private Connection con;
 	private Statement stmt;
 	private PreparedStatement pstmt;
 	
 	// 생성자에서 DB 연결 수행
-	public aboutCenter() {
+	public aboutDepartment() {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			con = DriverManager.getConnection("jdbc:mysql://mysql:4567/ascenter","coldbrew","jaehoon");
@@ -28,25 +22,26 @@ public class aboutCenter {
 		}
 	}
 	
-	// Center DB 값 가져오기
+	// Department DB 값 가져오기
 	public String[][] getValue() {
 		try {
-			String SQL = "SELECT * FROM Center;";
+			String SQL = "SELECT * FROM Department;";
 			con = DriverManager.getConnection("jdbc:mysql://mysql:4567/ascenter","coldbrew","jaehoon");
 			ResultSet rs = stmt.executeQuery(SQL);
 			
 			rs.last();
 			int count = rs.getRow();
-			String[][] result = new String[count][4];
+			String[][] result = new String[count][5];
 			
 			rs.beforeFirst();
 			
 			int i = 0;
 			while(rs.next()){
-				result[i][0] = Integer.toString(rs.getInt("Center_id"));
-				result[i][1] = rs.getString("Center_name");
-				result[i][2] = rs.getString("Center_phone");
-				result[i][3] = rs.getString("Center_address");
+				result[i][0] = Integer.toString(rs.getInt("Dep_id"));
+				result[i][1] = rs.getString("Dep_name");
+				result[i][2] = rs.getString("Dep_phone");
+				result[i][3] = rs.getString("Dep_address");
+				result[i][4] = rs.getString("Center_id");
 				i++;
 			}
 			
@@ -59,20 +54,21 @@ public class aboutCenter {
 		return null;
 	}
 	
-	// Center id DB 값 가져오기
+	// Department id DB 값 가져오기
 		public String[] getiDValue(int id) {
 			try {
-				String SQL = "SELECT * FROM Center WHERE Center_id=" + id + ";";
+				String SQL = "SELECT * FROM Department WHERE Dep_id=" + id + ";";
 				con = DriverManager.getConnection("jdbc:mysql://mysql:4567/ascenter","coldbrew","jaehoon");
 				ResultSet rs = stmt.executeQuery(SQL);
 				
-				String[] result = new String[4];
+				String[] result = new String[5];
 				
 				while(rs.next()){
-					result[0] = Integer.toString(rs.getInt("Center_id"));
-					result[1] = rs.getString("Center_name");
-					result[2] = rs.getString("Center_phone");
-					result[3] = rs.getString("Center_address");
+					result[0] = Integer.toString(rs.getInt("Dep_id"));
+					result[1] = rs.getString("Dep_name");
+					result[2] = rs.getString("Dep_phone");
+					result[3] = rs.getString("Dep_address");
+					result[4] = Integer.toString(rs.getInt("Center_id"));
 				}
 				
 				con.close();
@@ -86,7 +82,7 @@ public class aboutCenter {
 		
 	// 중복 검색
 	public boolean isDuplicated(int id) {
-		String SQL = "SELECT * FROM Center WHERE Center_id =" + id;
+		String SQL = "SELECT * FROM Department WHERE Dep_id =" + id;
 		try {
 			con = DriverManager.getConnection("jdbc:mysql://mysql:4567/ascenter","coldbrew","jaehoon");
 			ResultSet rs = stmt.executeQuery(SQL);
@@ -104,32 +100,9 @@ public class aboutCenter {
 		return false;
 	}
 	
-	// 센터 정보 추가
-		public void editCenter(int id, String name, String phone, String address, int cid) {
-			String SQL = "UPDATE Center SET Center_id=?, Center_name= ?, Center_phone= ?, Center_address=? WHERE Center_id=?";
-			
-			try {
-				con = DriverManager.getConnection("jdbc:mysql://mysql:4567/ascenter","coldbrew","jaehoon");
-
-				pstmt = con.prepareStatement(SQL);
-				pstmt.setInt(1, id);
-				pstmt.setString(2,  name);
-				pstmt.setString(3, phone);
-				pstmt.setString(4, address);
-				pstmt.setInt(5, cid);
-				
-				// SQL문 쿼리 실행
-				int row = pstmt.executeUpdate();
-				con.close();
-			}
-			catch(Exception e) {
-				e.printStackTrace();
-			}
-		}
-		
-	// 센터 정보 추가
-	public void addCenter(int id, String name, String phone, String address) {
-		String SQL = "INSERT INTO Center VALUES (?,?,?,?);";
+	// 부서 정보 수정
+	public void editDep(int id, String name, String phone, String address, int cid, int did) {
+		String SQL = "UPDATE Department SET Dep_id=?, Dep_name= ?, Dep_phone= ?, Dep_address=?, Center_id=? WHERE Dep_id=?";
 		
 		try {
 			con = DriverManager.getConnection("jdbc:mysql://mysql:4567/ascenter","coldbrew","jaehoon");
@@ -139,6 +112,31 @@ public class aboutCenter {
 			pstmt.setString(2,  name);
 			pstmt.setString(3, phone);
 			pstmt.setString(4, address);
+			pstmt.setInt(5, cid);
+			pstmt.setInt(6, did);
+			
+			// SQL문 쿼리 실행
+			int row = pstmt.executeUpdate();
+			con.close();
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+		
+	// 부서 정보 추가
+	public void addDep(int id, String name, String phone, String address, int centerid) {
+		String SQL = "INSERT INTO Department VALUES (?,?,?,?,?);";
+		
+		try {
+			con = DriverManager.getConnection("jdbc:mysql://mysql:4567/ascenter","coldbrew","jaehoon");
+
+			pstmt = con.prepareStatement(SQL);
+			pstmt.setInt(1, id);
+			pstmt.setString(2, name);
+			pstmt.setString(3, phone);
+			pstmt.setString(4, address);
+			pstmt.setInt(5, centerid);
 			
 			// SQL문 쿼리 실행
 			int row = pstmt.executeUpdate();

@@ -16,8 +16,8 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
-import 회원가입.SignUp;
-import 회원가입.SignUpCheck;
+import back.SignUpCheck;
+import view.SignUp;
 
 public class UserMainShow extends JFrame{
 	private JFrame mainFrame = new JFrame();

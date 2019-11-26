@@ -1,4 +1,4 @@
-package 회원가입;
+package back;
 
 /**********************
   회원가입 관련 MySQL 클래스
@@ -19,7 +19,6 @@ public class SignUpCheck {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			con = DriverManager.getConnection("jdbc:mysql://mysql:4567/ascenter","coldbrew","jaehoon");
-			System.out.println("Database Connect!");
 			stmt = con.createStatement();
 		}
 		catch(Exception e){
@@ -27,6 +26,7 @@ public class SignUpCheck {
 		}
 	}
 	
+	// 회원가입 함수
 	public void signUP(int id, String password, String name, int age, String gender, int center) {
 		String SQL = "INSERT INTO Customer VALUES (?,?,?,?,?,?);";
 		try {
@@ -46,30 +46,33 @@ public class SignUpCheck {
 		}
 	}
 	
+	// Center list 반환
 	public String[] list_center() {
 		String[] result = null;
+
 		try {
 			String search = "SELECT COUNT(*) AS COUNT FROM Center;";
 			ResultSet rs = null;
+			
 			rs = stmt.executeQuery(search);
 			int count = 0;
 			
 			while(rs.next()) {
 				count = rs.getInt("COUNT");
 			}
-			System.out.println(count);
 			
 			result = new String[count];
 			
 			String search2 = "SELECT DISTINCT Center_id FROM Center;";
 			rs = stmt.executeQuery(search2);
-
+			
 			int num = 0;
 			
 			while(rs.next()) {
 				result[num] = Integer.toString(rs.getInt("Center_id"));
 				num += 1;
 			}
+			con.close();
 			return result;
 		}
 		catch(Exception e) {
@@ -86,6 +89,7 @@ public class SignUpCheck {
 			if(rs.next()) {
 				return rs.getString("Customer_name");
 			}
+			con.close();
 		}
 		catch(Exception e) {
 			e.printStackTrace();

@@ -7,45 +7,76 @@ import javax.swing.border.*;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 
-import 고객.Center;
-import 회원가입.Login;
+import view.Center;
+import view.Department;
+import view.Login;
 
 import javax.swing.Box;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 
 public class AdminMainShow extends JFrame {
-	private JFrame mainFrame = new JFrame();
-	private JPanel mainPanel;
-	private JPanel subPanel;
+	public static JFrame mainFrame = new JFrame();
+	public static JPanel mainPanel;
+	public static JPanel subPanel;
 	private JMenuBar menu;
 	private Center center = new Center();
-	
+	private Department dep = new Department();
+
 	class ClickListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
 			String clicked = e.getActionCommand();
 				switch(clicked) {
-					case "센터추가":
+					case "센터추가": // 센터 추가
 						if(subPanel.isEnabled()) {
 							mainPanel.remove(subPanel);
 						}
-						subPanel = center.inputCustomer();
+						subPanel = center.inputCenter();
 						mainPanel.add(subPanel);
 						mainFrame.repaint();
 						break;
-					case "센터보기":
+					case "센터보기": // 센터 보기 
 						if(subPanel.isEnabled()) {
 							mainPanel.remove(subPanel);
 						}
-						subPanel = center.showCustomer();
+						subPanel = center.showCenter();
 						mainPanel.add(subPanel);
 						mainFrame.repaint();
 						break;
-					case "센터수정":
+					case "센터수정": // 센터 수정
+						if(subPanel.isEnabled()) {
+							mainPanel.remove(subPanel);
+						}
+						subPanel = center.editCenter();
+						mainPanel.add(subPanel);
+						mainFrame.repaint();
+						break;
 					case "센터삭제":
+						break;
 					case "부서추가":
+						if(subPanel.isEnabled()) {
+							mainPanel.remove(subPanel);
+						}
+						subPanel = dep.inputDep();
+						mainPanel.add(subPanel);
+						mainFrame.repaint();
+						break;
 					case "부서보기":
+						if(subPanel.isEnabled()) {
+							mainPanel.remove(subPanel);
+						}
+						subPanel = dep.showDep();
+						mainPanel.add(subPanel);
+						mainFrame.repaint();
+						break;
 					case "부서수정":
+						if(subPanel.isEnabled()) {
+							mainPanel.remove(subPanel);
+						}
+						subPanel = dep.editDep();
+						mainPanel.add(subPanel);
+						mainFrame.repaint();
+						break;
 					case "부서삭제":
 					case "직원추가":
 					case "직원보기":
@@ -86,6 +117,7 @@ public class AdminMainShow extends JFrame {
 		mainPanel.setBounds(0, 0, 800, 600);
 		
 		subPanel = new JPanel();
+		subPanel.setBounds(100, 100, 500, 400);
 		
 		menu = new JMenuBar();
 		// 관리자 메뉴 생성 : 센터관리, 부서관리, 직원관리, 고객관리, AS목록, 로그아웃

@@ -1,4 +1,4 @@
-package 회원가입;
+package view;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
-import 회원가입.Login;
+import back.SignUpCheck;
 
 import java.util.*;
 
@@ -16,9 +16,8 @@ public class SignUp extends JFrame{
 	private JTextField signupId;
 	private JTextField signupName;
 	private JTextField signupAge;
-	private JTextField signupGender;
 	private JPasswordField signupPW;
-	private JList signupCenter;
+	private JList<String> signupCenter;
 	
 	private int ID = 0;
 	private String PW = "";
@@ -31,7 +30,7 @@ public class SignUp extends JFrame{
 		String[] centers = null;
 		
 		// SignUPCheck class 생성
-		SignUpCheck s = new SignUpCheck();
+		SignUpCheck S = new SignUpCheck();
 
 		setTitle("회원가입");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -123,8 +122,8 @@ public class SignUp extends JFrame{
 		c.setHorizontalAlignment(SwingConstants.CENTER);
 		signupPanel.add(c);
 		
-		centers = s.list_center();
-		signupCenter = new JList();
+		centers = S.list_center();
+		signupCenter = new JList<String>();
 		signupCenter.setListData(centers);
 		
 		JScrollPane scroll = new JScrollPane(signupCenter);
@@ -150,7 +149,7 @@ public class SignUp extends JFrame{
 				
 				listtarget = signupCenter.getSelectedValue().toString();
 				getInfo(signupId, signupPW, signupName, signupAge, target, listtarget);
-				s.signUP(ID, PW, NAME, AGE, GENDER, CENTER);
+				S.signUP(ID, PW, NAME, AGE, GENDER, CENTER);
 			}
 		});
 		

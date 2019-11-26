@@ -6,3 +6,5 @@
 3. Normalization
 ---------------------------
 4. Table 생성완료 -> Eclipse 작업 시작
+5. Customer (수정 까지 완료)
+6. Department 시작

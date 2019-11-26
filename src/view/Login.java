@@ -1,10 +1,13 @@
-package 회원가입;
+package view;
 
 /**********************
    로그인 관련 MySQL 클래스
 **********************/
 
 import javax.swing.event.*;
+
+import back.LoginCheck;
+
 import javax.swing.border.*;
 import javax.swing.*;
 import java.awt.event.*;
