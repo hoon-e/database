@@ -23,6 +23,7 @@ public class Login extends JFrame{
 	private String PW = "";
 		
 	public Login() {
+		revalidate();
 		setTitle("로그인");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 400, 300);

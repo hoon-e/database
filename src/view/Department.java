@@ -101,6 +101,7 @@ public class Department extends JFrame{
 		       }
 		};
 		
+		// 수정하고자하는 부서의 정보
 		JTable table = new JTable(contents, header);
 		table.setModel(tableModel);
 		JScrollPane scrollpane = new JScrollPane(table);
@@ -144,6 +145,8 @@ public class Department extends JFrame{
 					}
 					else {
 						int result = JOptionPane.showConfirmDialog(dep, "수정하시겠습니까?", "수정 확인", JOptionPane.YES_NO_OPTION);
+						
+						// YES를 누르면 panel editPanel로 교체
 						if( result == JOptionPane.YES_OPTION ) {
 							if(AdminMainShow.subPanel.isEnabled()) {
 								AdminMainShow.mainPanel.remove(AdminMainShow.subPanel);
@@ -281,6 +284,7 @@ public class Department extends JFrame{
 					if(depId.getText().equals("")| depName.getText().equals("") | depPhone.getText().equals("") | depAddress.getText().equals("")) {
 						msg = "값을 입력해주세요";
 						message.setText(msg);
+						dep.revalidate();
 						dep.repaint();
 					}
 					else {
@@ -289,14 +293,16 @@ public class Department extends JFrame{
 						// listTarget 정보 가져오기
 						String listTarget = centerList.getSelectedValue().toString();
 						
-						// dep 정보 입력
+						// dep 정보 수정
 						aD.editDep(depID, depNAME, depPHONE, depADDR, Integer.parseInt(listTarget), did);
 						int result = JOptionPane.showConfirmDialog(dep, "수정되었습니다.", "수정확인", JOptionPane.YES_OPTION );
 						
+						// YES일 경우 현재의 화면을 교체합니다.				
 						if( result == JOptionPane.YES_OPTION) {
 							if(AdminMainShow.subPanel.isEnabled()) {
 								AdminMainShow.mainPanel.remove(AdminMainShow.subPanel);
 							}
+							AdminMainShow.subPanel = showDep();
 							AdminMainShow.mainPanel.add(AdminMainShow.subPanel);
 							AdminMainShow.mainFrame.repaint();
 						}
@@ -326,6 +332,7 @@ public class Department extends JFrame{
 		Reset.setBounds(600, 155, 80, 30);
 		dep.add(Reset);
 		
+		dep.revalidate();
 		dep.setVisible(true);
 		return dep;
 	}
@@ -443,6 +450,7 @@ public class Department extends JFrame{
 								msg = Integer.toString(depID) + "은 이미 존재하는 부서입니다.";
 								message.setText(msg);	
 								depId.setText("");
+								dep.revalidate();
 								dep.repaint();
 							}else {
 								String listTarget = centerList.getSelectedValue().toString();
@@ -475,6 +483,8 @@ public class Department extends JFrame{
 			Reset.setBounds(600, 155, 80, 30);
 			dep.add(Reset);
 			
+			dep.revalidate();
+			dep.repaint();
 			dep.setVisible(true);
 			return dep;
 		}

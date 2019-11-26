@@ -9,6 +9,7 @@ import javax.swing.event.MenuListener;
 
 import view.Center;
 import view.Department;
+import view.Employee;
 import view.Login;
 
 import javax.swing.Box;
@@ -22,7 +23,8 @@ public class AdminMainShow extends JFrame {
 	private JMenuBar menu;
 	private Center center = new Center();
 	private Department dep = new Department();
-
+	private Employee emp = new Employee();
+	
 	class ClickListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
 			String clicked = e.getActionCommand();
@@ -33,6 +35,7 @@ public class AdminMainShow extends JFrame {
 						}
 						subPanel = center.inputCenter();
 						mainPanel.add(subPanel);
+						mainFrame.revalidate();
 						mainFrame.repaint();
 						break;
 					case "센터보기": // 센터 보기 
@@ -41,6 +44,7 @@ public class AdminMainShow extends JFrame {
 						}
 						subPanel = center.showCenter();
 						mainPanel.add(subPanel);
+						mainFrame.revalidate();
 						mainFrame.repaint();
 						break;
 					case "센터수정": // 센터 수정
@@ -49,6 +53,7 @@ public class AdminMainShow extends JFrame {
 						}
 						subPanel = center.editCenter();
 						mainPanel.add(subPanel);
+						mainFrame.revalidate();
 						mainFrame.repaint();
 						break;
 					case "센터삭제":
@@ -59,6 +64,7 @@ public class AdminMainShow extends JFrame {
 						}
 						subPanel = dep.inputDep();
 						mainPanel.add(subPanel);
+						mainFrame.revalidate();
 						mainFrame.repaint();
 						break;
 					case "부서보기":
@@ -67,6 +73,7 @@ public class AdminMainShow extends JFrame {
 						}
 						subPanel = dep.showDep();
 						mainPanel.add(subPanel);
+						mainFrame.revalidate();
 						mainFrame.repaint();
 						break;
 					case "부서수정":
@@ -75,10 +82,19 @@ public class AdminMainShow extends JFrame {
 						}
 						subPanel = dep.editDep();
 						mainPanel.add(subPanel);
+						mainFrame.revalidate();
 						mainFrame.repaint();
 						break;
 					case "부서삭제":
 					case "직원추가":
+						if(subPanel.isEnabled()) {
+							mainPanel.remove(subPanel);
+						}
+						subPanel = emp.inputEmp();
+						mainPanel.add(subPanel);
+						mainFrame.revalidate();
+						mainFrame.repaint();
+						break;
 					case "직원보기":
 					case "직원수정":
 					case "직원삭제":
@@ -101,6 +117,7 @@ public class AdminMainShow extends JFrame {
 	
 	// 메뉴 생성 함수
 	public AdminMainShow() {
+		revalidate();
 		// mainFrame 생성
 		mainFrame.setTitle("AS CENTER PROGRAM(Admin Mode)");
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -145,7 +162,9 @@ public class AdminMainShow extends JFrame {
 		showMenu[6].addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				mainFrame.dispose();
+				mainFrame.setVisible(false);
+				dispose();
+				System.gc();
 				new Login();
 			}
 		});
@@ -175,6 +194,6 @@ public class AdminMainShow extends JFrame {
 		mainPanel.add(menu);
 		
 		mainFrame.pack();
-		mainFrame.setVisible(true);																																															
+		mainFrame.setVisible(true);
 	}
 }
