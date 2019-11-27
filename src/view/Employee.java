@@ -1,6 +1,7 @@
 package view;
 
 import back.SignUpCheck;
+import back.aboutDepartment;
 import back.aboutEmployee;
 
 import java.awt.Color;
@@ -11,6 +12,7 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
 
 public class Employee extends JFrame{
 	private JPanel emp;
@@ -21,6 +23,7 @@ public class Employee extends JFrame{
 	private JTextField empAge;
 	private JList<String> centerList;
 	private JList<String> depList;
+	public JTable table;
 	
 	private int empID = 0;
 	private String empNAME = "";
@@ -28,13 +31,98 @@ public class Employee extends JFrame{
 	private String empADDR = "";
 	private int empAGE = 0;
 	public String msg = "";
-	
-	/*
+	public String[][] contents = null;
+	public String[] header = null;
+
+	// 부서 정보 보기
 	public JPanel showEmp() {
 		aboutEmployee aE = new aboutEmployee();
+		
+		emp = new JPanel();
+		emp.setBorder(new EmptyBorder(0, 0, 500, 400));
+		setContentPane(emp);
+		emp.setLayout(null);
+		emp.setBounds(30, 30, 800, 500);
+		
+		JLabel info = new JLabel("직원정보 보기");
+		info.setHorizontalAlignment(SwingConstants.CENTER);
+		info.setFont(info.getFont().deriveFont(25.0f));
+		info.setBounds(0, 40, 200, 40);
+		emp.add(info);
+		
+		centerList = new JList<String>();
+		depList = new JList<String>();
+		
+		String[] centerlist = aE.list_center();
+		centerList.setListData(centerlist);
+		// 동적으로 부서 정보 생성
+		centerList.addMouseListener(new MouseAdapter() {
+		    public void mouseClicked(MouseEvent evt) {
+		        JList list = (JList)evt.getSource();
+		        int cid = Integer.parseInt(list.getSelectedValue().toString());
+		        String[] depart = aE.list_dep(cid);
+		        
+		        depList.setListData(depart);
+							emp.revalidate();
+							emp.repaint();
+		        }
+		    }
+		  );
+		centerList.setBounds(100,100, 100, 80);
+		emp.add(centerList);
+		
+		depList.setBounds(300, 100, 100, 80);
+		emp.add(depList);
+		
+		header = new String[] {"직원ID","직원이름", "직원번호", "직원주소", "직원나이"};
+
+		DefaultTableModel tableModel = new DefaultTableModel(contents, header) {
+		    @Override
+		    public boolean isCellEditable(int row, int column) {
+		       //all cells false
+		       return false;
+		    }
+		};
+		
+		table = new JTable(contents, header);
+		table.setModel(tableModel);
+		DefaultTableModel myModel = (DefaultTableModel)table.getModel();
+
+		JScrollPane scrollpane = new JScrollPane(table);
+		scrollpane.setBounds(30, 200, 600, 200);
+		
+		emp.add(scrollpane);
+		
+		depList.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent evt) {
+				JList list = (JList)evt.getSource();
+				
+				if( list.getSelectedValue() == null ) {
+					// nothing
+				}
+				else {
+					int did = Integer.parseInt(list.getSelectedValue().toString());
+					contents = aE.getValue(did);
+					
+					if( contents == null ) {
+						// nothing
+						myModel.fireTableDataChanged();
+						table.revalidate();
+						table.repaint();
+					}
+					else {
+						myModel.fireTableDataChanged();
+						
+					}
+				}
+			}
+		});
+		
+		emp.revalidate();
+		emp.repaint();
+		return emp;
 	}
-	*/
-	
+		
 	// Emp 정보 삽입
 	public JPanel inputEmp() {
 		aboutEmployee aE = new aboutEmployee();
@@ -95,10 +183,10 @@ public class Employee extends JFrame{
 		age.setBounds(140, 240, 70, 15);
 		emp.add(age);
 		
-		empPhone = new JTextField("");
-		empPhone.setBounds(230, 233, 230, 30);
-		emp.add(empPhone);
-		empPhone.setColumns(10);
+		empAge = new JTextField("");
+		empAge.setBounds(230, 233, 230, 30);
+		emp.add(empAge);
+		empAge.setColumns(10);
 
 		// emp_phone Input
 		JLabel phone = new JLabel("직원번호");
@@ -144,7 +232,7 @@ public class Employee extends JFrame{
 		        int cid = Integer.parseInt(list.getSelectedValue().toString());
 		        String[] depart = aE.list_dep(cid);
 		        
-							depList.setListData(depart);
+		        depList.setListData(depart);
 							emp.revalidate();
 							emp.repaint();
 		        }
@@ -179,22 +267,20 @@ public class Employee extends JFrame{
 						emp.repaint();
 					}
 					else {
-						/*
-						getInfo(empId, empName, empAge, empPhone, empAddress);
-						boolean flag = aD.isDuplicated(empID);
+						getInfo(empId, empName, empPhone, empAge, empAddress);
+						boolean flag = aE.isDuplicated(empID);
 						
 						// 중복이 존재할 경우
 						if(flag == true) {
-							msg = Integer.toString(empID) + "은 이미 존재하는 부서입니다.";
-							message.setText(msg);	
+							msg = Integer.toString(empID) + "은 이미 존재하는 직원입니다.";
+							message.setText(msg);
 							empId.setText("");
 							emp.repaint();
 						}else {
-							String listTarget = centerList.getSelectedValue().toString();
+							String listTarget = depList.getSelectedValue().toString();
 							// emp 정보 입력
-							// aD.addemp(empID, empNAME, empPHONE, empADDR, Integer.parseInt(listTarget));
+							aE.addEmp(empID, empNAME, empPHONE, empADDR, empAGE, Integer.parseInt(listTarget));
 						}
-						*/
 					}
 				}
 				catch(Exception e1) {

@@ -8,6 +8,7 @@ import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 
 import view.Center;
+import view.Customer;
 import view.Department;
 import view.Employee;
 import view.Login;
@@ -24,6 +25,7 @@ public class AdminMainShow extends JFrame {
 	private Center center = new Center();
 	private Department dep = new Department();
 	private Employee emp = new Employee();
+	private Customer cust = new Customer();
 	
 	class ClickListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
@@ -96,10 +98,27 @@ public class AdminMainShow extends JFrame {
 						mainFrame.repaint();
 						break;
 					case "직원보기":
+						if(subPanel.isEnabled()) {
+							mainPanel.remove(subPanel);
+						}
+						subPanel = emp.showEmp();
+						mainPanel.add(subPanel);
+						mainFrame.revalidate();
+						mainFrame.repaint();
+						break;
 					case "직원수정":
 					case "직원삭제":
 						break;
+					case "급여관리":
+						break;
 					case "고객보기":
+						if(subPanel.isEnabled()) {
+							mainPanel.remove(subPanel);
+						}
+						subPanel = cust.showCustomer();
+						mainPanel.add(subPanel);
+						mainFrame.revalidate();
+						mainFrame.repaint();
 						break;
 					case "고객수정":
 						break;
@@ -144,7 +163,7 @@ public class AdminMainShow extends JFrame {
 				{"센터추가", "센터보기", "센터수정", "센터삭제"},
 				{"부서추가", "부서보기", "부서수정", "부서삭제"},
 				{"직원추가", "직원보기", "직원수정", "직원삭제", "급여관리"},
-				{"고객추가", "고객보기", "고객수정", "고객삭제"},
+				{"고객보기", "고객수정", "고객삭제"},
 				{"AS확인", "AS관리"},
 				{"납품확인"}
 				};

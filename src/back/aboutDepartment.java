@@ -36,6 +36,7 @@ public class aboutDepartment {
 			rs.beforeFirst();
 			
 			int i = 0;
+			
 			while(rs.next()){
 				result[i][0] = Integer.toString(rs.getInt("Dep_id"));
 				result[i][1] = rs.getString("Dep_name");

@@ -86,7 +86,7 @@ public class aboutCenter {
 		
 	// 중복 검색
 	public boolean isDuplicated(int id) {
-		String SQL = "SELECT * FROM Center WHERE Center_id =" + id;
+		String SQL = "SELECT * FROM Center WHERE Center_id =" + id + ";";
 		try {
 			con = DriverManager.getConnection("jdbc:mysql://mysql:4567/ascenter","coldbrew","jaehoon");
 			ResultSet rs = stmt.executeQuery(SQL);
