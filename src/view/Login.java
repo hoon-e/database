@@ -96,26 +96,6 @@ public class Login extends JFrame{
 		
 		signup.setBounds(265, 134, 80, 30);
 		loginPanel.add(signup);
-		
-		// find ID
-		JButton findid = new JButton("ID찾기");
-		findid.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-			//	 
-		});
-		findid.setBounds(85, 134, 78, 30);
-		loginPanel.add(findid);
-		
-		// find PW
-		JButton findpw = new JButton("PW찾기");
-		findid.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-			//
-		});
-		findpw.setBounds(175, 134, 78, 30);
-		loginPanel.add(findpw);
 	
 		setLocation(800, 300);
 		setVisible(true);

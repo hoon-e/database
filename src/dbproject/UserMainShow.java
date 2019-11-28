@@ -19,6 +19,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import back.SignUpCheck;
+import view.AS;
 import view.Center;
 import view.Customer;
 import view.Department;
@@ -36,27 +37,44 @@ public class UserMainShow extends JFrame{
 	private Department dep = new Department();
 	private Employee emp = new Employee();
 	private Customer cust = new Customer();
+	private AS as = new AS();
+	private int setID;
 	
 	class ClickListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
 			String clicked = e.getActionCommand();
 				switch(clicked) {
-				// 고객은 센터, 부서, 직원 정보를 열람하는 것만 가능하다.
-				case "센터정보": // 센터 정보 보기
-				case "부서정보":
-				case "직원정보":
-				// AS신청을
-				case "AS신청":
-				case "정보수정":
-				case "로그아웃":
+					case "AS신청":
+						if(subPanel.isEnabled()) {
+							mainPanel.remove(subPanel);
+						}
+						subPanel = as.inputAS(setID);
+						mainPanel.add(subPanel);
+						mainFrame.revalidate();
+						mainFrame.repaint();
+						break;
+					case "AS확인":
+						if(subPanel.isEnabled()) {
+							mainPanel.remove(subPanel);
+						}
+						subPanel = as.showAS();
+						mainPanel.add(subPanel);
+						mainFrame.revalidate();
+						mainFrame.repaint();
+						break;
 				}
 			}
+	}
+	
+	private void set(int loginid) {
+		setID = loginid;
 	}
 	
 	// 메뉴 생성 함수
 	public UserMainShow(int loginid) {
 		SignUpCheck c = new SignUpCheck();
 		String username = c.getName(loginid);
+		set(loginid);
 		// mainFrame 생성
 		mainFrame.setTitle("AS CENTER PROGRAM");
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -78,14 +96,14 @@ public class UserMainShow extends JFrame{
 				
 		menu = new JMenuBar();
 		//  사용자 메뉴 생성 : 센터정보, 부서정보, 직원정보, AS신청, 정보수정,  로그아웃
-		JMenuItem[][] menuItem = new JMenuItem[6][3];
-		String[] menuTitle = {"센터정보",  "부서정보", "직원정보", " AS신청", "정보수정",  "로그아웃"};
+		JMenuItem[][] menuItem = new JMenuItem[5][2];
+		String[] menuTitle = {"센터정보",  "부서정보", "직원정보", " AS신청",  "로그아웃"};
 		String[][] itemTitle = {
-				{},{},{},{"AS신청", "AS확인", "AS수정"}
+				{},{},{},{"AS신청", "AS확인"}
 		};
 		
 		//  메뉴 생성
-		JMenu[] showMenu = new JMenu[6];
+		JMenu[] showMenu = new JMenu[5];
 		for(int i=0; i<menuItem.length; i++) {
 			showMenu[i] = new JMenu(menuTitle[i]);
 		}
@@ -129,7 +147,7 @@ public class UserMainShow extends JFrame{
 			}
 		});
 		
-		showMenu[5].addMouseListener(new MouseAdapter() {
+		showMenu[4].addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
 				mainFrame.setVisible(false);

@@ -7,6 +7,7 @@ import javax.swing.border.*;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 
+import view.AS;
 import view.Center;
 import view.Customer;
 import view.Department;
@@ -28,6 +29,7 @@ public class AdminMainShow extends JFrame {
 	private Employee emp = new Employee();
 	private Customer cust = new Customer();
 	private Supply supp = new Supply();
+	private AS as = new AS();
 	
 	class ClickListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
@@ -60,8 +62,6 @@ public class AdminMainShow extends JFrame {
 						mainFrame.revalidate();
 						mainFrame.repaint();
 						break;
-					case "센터삭제":
-						break;
 					case "부서추가":
 						if(subPanel.isEnabled()) {
 							mainPanel.remove(subPanel);
@@ -89,7 +89,6 @@ public class AdminMainShow extends JFrame {
 						mainFrame.revalidate();
 						mainFrame.repaint();
 						break;
-					case "부서삭제":
 					case "직원추가":
 						if(subPanel.isEnabled()) {
 							mainPanel.remove(subPanel);
@@ -107,11 +106,6 @@ public class AdminMainShow extends JFrame {
 						mainPanel.add(subPanel);
 						mainFrame.revalidate();
 						mainFrame.repaint();
-						break;
-					case "직원수정":
-					case "직원삭제":
-						break;
-					case "급여관리":
 						break;
 					case "고객보기":
 						if(subPanel.isEnabled()) {
@@ -131,11 +125,14 @@ public class AdminMainShow extends JFrame {
 						mainFrame.revalidate();
 						mainFrame.repaint();
 						break;
-					case "고객삭제":
-						break;
-					case "AS확인":
-						break;
-					case "AS관리":
+					case "AS보기":
+						if(subPanel.isEnabled()) {
+							mainPanel.remove(subPanel);
+						}
+						subPanel = as.showAS();
+						mainPanel.add(subPanel);
+						mainFrame.revalidate();
+						mainFrame.repaint();
 						break;
 					case "납품추가":
 						if(subPanel.isEnabled()) {
@@ -147,6 +144,13 @@ public class AdminMainShow extends JFrame {
 						mainFrame.repaint();
 						break;
 					case "납품확인":
+						if(subPanel.isEnabled()) {
+							mainPanel.remove(subPanel);
+						}
+						subPanel = supp.showMS();
+						mainPanel.add(subPanel);
+						mainFrame.revalidate();
+						mainFrame.repaint();
 						break;
 				}
 		}
@@ -178,12 +182,12 @@ public class AdminMainShow extends JFrame {
 		JMenuItem[][] menuItem = new JMenuItem[7][5];
 		String[] menuTitle = {"센터관리", "부서관리", "직원관리", "고객관리", " AS관리", "납품관리", "로그아웃"};
 		String[][] itemTitle = {
-				{"센터추가", "센터보기", "센터수정", "센터삭제"},
-				{"부서추가", "부서보기", "부서수정", "부서삭제"},
-				{"직원추가", "직원보기", "직원수정", "직원삭제", "급여관리"},
-				{"고객보기", "고객수정", "고객삭제"},
-				{"AS확인", "AS관리"},
-				{"납품추가", "납품확인"}
+					{"센터추가", "센터보기", "센터수정"},
+					{"부서추가", "부서보기", "부서수정"},
+					{"직원추가", "직원보기"},
+					{"고객보기", "고객수정"},
+					{"AS보기"},
+					{"납품추가", "납품확인"}
 				};
 		
 		// 메뉴에 서브메뉴와 이벤트 생성
