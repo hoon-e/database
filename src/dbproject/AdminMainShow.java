@@ -12,6 +12,7 @@ import view.Customer;
 import view.Department;
 import view.Employee;
 import view.Login;
+import view.Supply;
 
 import javax.swing.Box;
 import java.awt.*;
@@ -26,6 +27,7 @@ public class AdminMainShow extends JFrame {
 	private Department dep = new Department();
 	private Employee emp = new Employee();
 	private Customer cust = new Customer();
+	private Supply supp = new Supply();
 	
 	class ClickListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
@@ -135,6 +137,15 @@ public class AdminMainShow extends JFrame {
 						break;
 					case "AS관리":
 						break;
+					case "납품추가":
+						if(subPanel.isEnabled()) {
+							mainPanel.remove(subPanel);
+						}
+						subPanel = supp.inputSupply();
+						mainPanel.add(subPanel);
+						mainFrame.revalidate();
+						mainFrame.repaint();
+						break;
 					case "납품확인":
 						break;
 				}
@@ -172,7 +183,7 @@ public class AdminMainShow extends JFrame {
 				{"직원추가", "직원보기", "직원수정", "직원삭제", "급여관리"},
 				{"고객보기", "고객수정", "고객삭제"},
 				{"AS확인", "AS관리"},
-				{"납품확인"}
+				{"납품추가", "납품확인"}
 				};
 		
 		// 메뉴에 서브메뉴와 이벤트 생성
