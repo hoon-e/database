@@ -10,6 +10,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -100,7 +101,11 @@ public class Customer extends JFrame{
 		
 		table.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent evt) {
-				System.out.println(evt.getSource());
+				String selectedData = null;
+				int row = table.getSelectedRow();
+				selectedData = (String)table.getValueAt(row, 0);
+				
+				customerId.setText(selectedData);
 			}
 		});
 		
@@ -136,7 +141,7 @@ public class Customer extends JFrame{
 		customer.add(id);
 		
 		customerId = new JTextField("");
-		customerId.setBounds(360, 440, 150, 30);
+		customerId.setBounds(360, 430, 150, 30);
 		customer.add(customerId);
 		customerId.setColumns(10);
 		
@@ -144,15 +149,22 @@ public class Customer extends JFrame{
 		JButton Edit = new JButton("정보수정");
 		Edit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				int cust_id = Integer.parseInt(customerId.getText());
 				
+				int result = JOptionPane.showConfirmDialog(customer, "수정하시겠습니까?","수정 확인", JOptionPane.YES_NO_OPTION);
+				
+				if( result == JOptionPane.YES_OPTION);
 			}
 		});
-				
+		
+		Edit.setBounds(520, 430, 80, 30);
+		customer.add(Edit);
+		
 		customer.revalidate();
 		customer.repaint();
 		return customer;			
 }
-	
+
 	public JPanel showCustomer() {
 		aboutCustomer aC = new aboutCustomer();
 
