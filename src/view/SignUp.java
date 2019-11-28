@@ -1,5 +1,8 @@
 package view;
 
+/***********
+ * 회원가입 
+ ***********/
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

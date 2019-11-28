@@ -23,10 +23,11 @@ public class aboutDepartment {
 	}
 	
 	// Department DB 값 가져오기
-	public String[][] getValue() {
+	public String[][] getValue(int cid) {
 		try {
-			String SQL = "SELECT * FROM Department;";
+			String SQL = "SELECT * FROM Department WHERE Center_id=" + cid + ";";
 			con = DriverManager.getConnection("jdbc:mysql://mysql:4567/ascenter","coldbrew","jaehoon");
+			stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery(SQL);
 			
 			rs.last();
@@ -99,6 +100,43 @@ public class aboutDepartment {
 			e.printStackTrace();
 		}
 		return false;
+	}
+	
+	// Center list 반환
+	public String[] list_center() {
+		String[] result = null;
+
+		try {
+			con = DriverManager.getConnection("jdbc:mysql://mysql:4567/ascenter","coldbrew","jaehoon");
+			stmt = con.createStatement();
+			String search = "SELECT COUNT(*) AS COUNT FROM Center;";
+			ResultSet rs = null;
+			
+			rs = stmt.executeQuery(search);
+			int count = 0;
+			
+			while(rs.next()) {
+				count = rs.getInt("COUNT");
+			}
+			
+			result = new String[count];
+			
+			String search2 = "SELECT DISTINCT Center_id FROM Center;";
+			rs = stmt.executeQuery(search2);
+			
+			int num = 0;
+			
+			while(rs.next()) {
+				result[num] = Integer.toString(rs.getInt("Center_id"));
+				num += 1;
+			}
+			con.close();
+			return result;
+		}
+		catch(Exception e) {
+			System.out.println(e);
+		}
+		return result;
 	}
 	
 	// 부서 정보 수정

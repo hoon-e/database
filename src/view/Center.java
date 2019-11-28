@@ -273,7 +273,7 @@ public class Center extends JFrame{
 		JTable table = new JTable(contents, header);
 		table.setModel(tableModel);
 		JScrollPane scrollpane = new JScrollPane(table);
-		scrollpane.setBounds(70, 100, 600, 400);
+		scrollpane.setBounds(90, 100, 550, 400);
 		center.add(scrollpane);
 		
 		return center;

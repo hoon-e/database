@@ -3,6 +3,8 @@ package view;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -29,12 +31,16 @@ public class Department extends JFrame{
 	private JTextField depAddress;
 	private JTextField depPhone;
 	private JList<String> centerList;
+	private JTextField depEdit; 
+	private JTable table;
 	
 	private int depID = 0;
 	private String depNAME = "";
 	private String depPHONE = "";
 	private String depADDR = "";
 	public String msg = "";
+	public String[][] contents = null;
+	public String[] header = null;
 	
 	// 부서 정보 보기
 	public JPanel showDep() {
@@ -52,8 +58,21 @@ public class Department extends JFrame{
 		info.setBounds(0, 40, 200, 40);
 		dep.add(info);
 		
-		String[] header = {"부서ID","부서이름", "부서번호", "부서주소", "센터ID"};
-		String[][] contents = aD.getValue();
+		JLabel cen = new JLabel("센터선택");
+		cen.setHorizontalAlignment(SwingConstants.CENTER);
+		cen.setFont(cen.getFont().deriveFont(13.0f));
+		cen.setBounds(80,125, 50, 30);
+		
+		dep.add(cen);
+		
+		centerList = new JList<String>();
+		// 센터 리스트
+		String[] centerlist = aD.list_center();
+		centerList.setListData(centerlist);
+		
+		JScrollPane scroll = new JScrollPane(centerList);
+		
+		header = new String[]{"부서ID","부서이름", "부서번호", "부서주소", "센터ID"};
 		
 		DefaultTableModel tableModel = new DefaultTableModel(contents, header) {
 		    @Override
@@ -63,18 +82,59 @@ public class Department extends JFrame{
 		    }
 		};
 		
-		JTable table = new JTable(contents, header);
+		scroll.setBounds(80, 160, 100, 80);
+		dep.add(scroll);
+		
+		table = new JTable(null, header);
 		table.setModel(tableModel);
 		JScrollPane scrollpane = new JScrollPane(table);
-		
-		scrollpane.setBounds(70, 100, 600, 400);
+		DefaultTableModel myModel = (DefaultTableModel)table.getModel();
+
+		scrollpane.setBounds(220, 150, 400, 300);
 		dep.add(scrollpane);
+		
+		centerList.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent evt) {
+				JList list = (JList)evt.getSource();
+				int cid = Integer.parseInt(list.getSelectedValue().toString());
+				
+				contents = aD.getValue(cid);
+				
+				if( contents == null ) {
+					myModel.fireTableDataChanged();
+					jTableRefresh();
+				}else {
+					myModel.fireTableDataChanged();
+					jTableRefresh();
+				}
+			}
+		});
+		
+		myModel.fireTableDataChanged();
+		jTableRefresh();
+		
+		dep.revalidate();
+		dep.repaint();
 		
 		return dep;
 	}
 	
+	// table refresh
+ public void jTableRefresh(){
+	 @SuppressWarnings("serial")
+		DefaultTableModel tableModel = new DefaultTableModel(contents, header) {
+			@Override
+		    public boolean isCellEditable(int row, int column) {
+		       //all cells false
+		       return false;
+		    }
+		};
+		table.setModel(tableModel);  
+ 	}	
+ 
 	// 부서 정보 수정
 	public JPanel editDep() {
+		
 		aboutDepartment aD = new aboutDepartment();
 
 		dep = new JPanel();
@@ -89,61 +149,29 @@ public class Department extends JFrame{
 		info.setBounds(0, 40, 200, 40);
 		dep.add(info);
 		
-		// 부서 정보 열람
-		String[] header = {"부서ID","부서이름", "부서주소", "부서번호"};
-		String[][] contents = aD.getValue();
+		JLabel cen = new JLabel("센터선택");
+		cen.setHorizontalAlignment(SwingConstants.CENTER);
+		cen.setFont(cen.getFont().deriveFont(13.0f));
+		cen.setBounds(80,125, 50, 30);
 		
-		DefaultTableModel tableModel = new DefaultTableModel(contents, header) {
-		    @Override
-		    public boolean isCellEditable(int row, int column) {
-		       //all cells false
-		       return false;
-		       }
-		};
+		dep.add(cen);
 		
-		// 수정하고자하는 부서의 정보
-		JTable table = new JTable(contents, header);
-		table.setModel(tableModel);
-		JScrollPane scrollpane = new JScrollPane(table);
-		scrollpane.setBounds(70, 110, 400, 350);
-		dep.add(scrollpane);
-		
-		JLabel editmsg = new JLabel("수정하고 싶은 부서번호를 입력해주세요.");
-		editmsg.setHorizontalAlignment(SwingConstants.CENTER);
-		editmsg.setFont(editmsg.getFont().deriveFont(13.0f));
-		editmsg.setForeground(Color.RED);
-		editmsg.setBounds(485, 105, 250, 30);
-		dep.add(editmsg);
-		
-		JTextField editCenter = new JTextField();
-		editCenter.setBounds(500, 140, 200, 30);
-		editCenter.setColumns(10);
-		dep.add(editCenter);
-		
-		JLabel message = new JLabel("");
-		message.setHorizontalAlignment(SwingConstants.CENTER);
-		message.setFont(message.getFont().deriveFont(13.0f));
-		message.setForeground(Color.RED);
-		message.setBounds(460, 85, 200, 15);
-		dep.add(message);
+		depEdit = new JTextField();
+		depEdit.setBounds(320, 110, 200, 30);
+		depEdit.setColumns(10);
+		dep.add(depEdit);
 		
 		// 수정하기
 		JButton accept = new JButton("수정하기");
 		accept.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {				
-				if(editCenter.getText().equals("")) {
-					message.setText("값을 입력해주세요!");
-					dep.repaint();
-				}
-				else {
-					int id = Integer.parseInt(editCenter.getText());
-					boolean check = aD.isDuplicated(id);
+					String value = depEdit.getText();
 					
-					if( check == false ) {
-						message.setText("존재하지않는 id값입니다!");
-						dep.repaint();
+					if(value == null) {
+						// nothing
 					}
 					else {
+						int id = Integer.parseInt(value);
 						int result = JOptionPane.showConfirmDialog(dep, "수정하시겠습니까?", "수정 확인", JOptionPane.YES_NO_OPTION);
 						
 						// YES를 누르면 panel editPanel로 교체
@@ -159,14 +187,75 @@ public class Department extends JFrame{
 							// nothing
 						}
 					}
-				}
-			} 
+			}
 		});
-		accept.setBounds(500, 180, 80, 30);
+		accept.setBounds(530, 110, 80, 30);
 		dep.add(accept);
 		
+		centerList = new JList<String>();
+		// 센터 리스트
+		String[] centerlist = aD.list_center();
+		centerList.setListData(centerlist);
+		
+		JScrollPane scroll = new JScrollPane(centerList);
+		
+		header = new String[]{"부서ID","부서이름", "부서번호", "부서주소", "센터ID"};
+		
+		DefaultTableModel tableModel = new DefaultTableModel(contents, header) {
+		    @Override
+		    public boolean isCellEditable(int row, int column) {
+		       //all cells false
+		       return false;
+		    }
+		};
+		
+		scroll.setBounds(80, 160, 100, 80);
+		dep.add(scroll);
+		
+		table = new JTable(null, header);
+		table.setModel(tableModel);
+		
+		table.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent evt) {
+				String selectedData = null;
+				int row = table.getSelectedRow();
+				selectedData = (String)table.getValueAt(row, 0);
+				
+				depEdit.setText(selectedData);
+			}
+		});
+		
+		JScrollPane scrollpane = new JScrollPane(table);
+		DefaultTableModel myModel = (DefaultTableModel)table.getModel();
+
+		scrollpane.setBounds(220, 150, 400, 300);
+		dep.add(scrollpane);
+		
+		centerList.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent evt) {
+				JList list = (JList)evt.getSource();
+				int cid = Integer.parseInt(list.getSelectedValue().toString());
+				
+				contents = aD.getValue(cid);
+				
+				if( contents == null ) {
+					myModel.fireTableDataChanged();
+					jTableRefresh();
+				}else {
+					myModel.fireTableDataChanged();
+					jTableRefresh();
+				}
+			}
+		});
+		
+		myModel.fireTableDataChanged();
+		jTableRefresh();
+		
+		dep.revalidate();
+		dep.repaint();
+		
 		return dep;
-	}
+}
 	
 	// 부서 정보 수정
 	public JPanel editPanel(int did) {

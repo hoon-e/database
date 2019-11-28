@@ -72,7 +72,7 @@ public class Login extends JFrame{
 					JOptionPane.showMessageDialog(null, "ID 또는 비밀번호를 확인하세요");
 				}else {
 					dispose();
-					if(ID == 1) { // 관리자 페이지 실행
+					if(ID == 1004) { // 관리자 페이지 실행
 						new AdminMainShow();
 					}
 					else { // 사용자 페이지 실행

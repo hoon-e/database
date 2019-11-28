@@ -59,6 +59,60 @@ public class aboutCustomer {
 			return result;
 		}
 		
+		// Customer DB update
+		public void updateCustomer(int customerID, String PW, String customerNAME, int age, String customerGENDER, int centerID, int Cid) {
+			String SQL = "UPDATE Customer SET Customer_id=?, Customer_name=?, Customer_age=?, Customer_gender=?, Center_id=?, passwd=? WHERE Customer_id=?;";
+			
+			try {
+				con = DriverManager.getConnection("jdbc:mysql://mysql:4567/ascenter","coldbrew","jaehoon");
+				pstmt = con.prepareStatement(SQL);
+				
+				pstmt = con.prepareStatement(SQL);
+				pstmt.setInt(1, customerID);
+				pstmt.setString(2, customerNAME);
+				pstmt.setInt(3, age);
+				pstmt.setString(4,  customerGENDER);
+				pstmt.setInt(5, centerID);
+				pstmt.setString(6, PW);
+				pstmt.setInt(7, Cid);
+				
+				int row = pstmt.executeUpdate();
+				con.close();
+			}
+			catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		// Customer id DB 값 가져오기
+		public String[] getiDValue(int cust_id) {
+			try {
+				// 회원 정보 가져오기
+				String SQL = "SELECT * FROM Customer WHERE Customer_id=" + cust_id + ";";
+				con = DriverManager.getConnection("jdbc:mysql://mysql:4567/ascenter","coldbrew","jaehoon");
+				ResultSet rs = stmt.executeQuery(SQL);
+				
+				String[] result = new String[6];
+				
+				// Customer DB 값 내보내기
+				while(rs.next()){
+					result[0] = Integer.toString(rs.getInt("Customer_id"));
+					result[1] = rs.getString("Customer_name");
+					result[2] = rs.getString("Customer_age");
+					result[3] = rs.getString("Customer_gender");
+					result[4] = Integer.toString(rs.getInt("Center_id"));
+					result[5] = rs.getString("passwd");
+				}
+				
+				con.close();
+				return result;
+			}
+			catch(Exception e) {
+				e.printStackTrace();
+			}
+			return null;
+		}
+		
 	// Department DB 값 가져오기
 	public String[][] getValue(int cid) {
 		try {

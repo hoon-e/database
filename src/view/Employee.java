@@ -1,7 +1,5 @@
 package view;
 
-import back.SignUpCheck;
-import back.aboutDepartment;
 import back.aboutEmployee;
 
 import java.awt.Color;
@@ -15,6 +13,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
 public class Employee extends JFrame{
+
 	private JPanel emp;
 	private JTextField empId;
 	private JTextField empName;
@@ -67,6 +66,16 @@ public class Employee extends JFrame{
 		depList = new JList<String>();
 		
 		String[] centerlist = aE.list_center();
+		
+		JLabel cen = new JLabel("센터");
+		cen.setHorizontalAlignment(SwingConstants.CENTER);
+		cen.setFont(cen.getFont().deriveFont(13.0f));
+		cen.setBounds(50, 97, 50, 20);
+		
+		emp.add(cen);
+		JScrollPane cenl = new JScrollPane(centerList);
+		emp.add(cenl);
+		
 		centerList.setListData(centerlist);
 		// 동적으로 부서 정보 생성
 		centerList.addMouseListener(new MouseAdapter() {
@@ -81,11 +90,19 @@ public class Employee extends JFrame{
 		        }
 		    }
 		  );
-		centerList.setBounds(100,100, 100, 80);
-		emp.add(centerList);
 		
-		depList.setBounds(300, 100, 100, 80);
-		emp.add(depList);
+		cenl.setBounds(100, 100, 100, 80);
+		
+		JLabel den = new JLabel("부서");
+		den.setHorizontalAlignment(SwingConstants.CENTER);
+		den.setFont(cen.getFont().deriveFont(13.0f));
+		den.setBounds(260, 97, 50, 20);
+		emp.add(den);
+		
+		JScrollPane denl = new JScrollPane(depList);
+		emp.add(denl);
+				
+		denl.setBounds(300, 100, 100, 80);
 		
 		header = new String[] {"직원ID","직원이름", "직원번호", "직원주소", "직원나이"};
 
@@ -102,7 +119,7 @@ public class Employee extends JFrame{
 		DefaultTableModel myModel = (DefaultTableModel)table.getModel();
 
 		JScrollPane scrollpane = new JScrollPane(table);
-		scrollpane.setBounds(30, 200, 600, 200);
+		scrollpane.setBounds(100, 220, 500, 200);
 		
 		emp.add(scrollpane);
 		
