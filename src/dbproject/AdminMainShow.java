@@ -121,6 +121,13 @@ public class AdminMainShow extends JFrame {
 						mainFrame.repaint();
 						break;
 					case "고객수정":
+						if(subPanel.isEnabled()) {
+							mainPanel.remove(subPanel);
+						}
+						subPanel = cust.editCustomer();
+						mainPanel.add(subPanel);
+						mainFrame.revalidate();
+						mainFrame.repaint();
 						break;
 					case "고객삭제":
 						break;

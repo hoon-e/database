@@ -62,7 +62,7 @@ public class aboutCustomer {
 	// Department DB 값 가져오기
 	public String[][] getValue(int cid) {
 		try {
-			String SQL = "SELECT * FROM Customer WHERE Customer_id=" + cid + ";";
+			String SQL = "SELECT * FROM Customer WHERE Center_id=" + cid + ";";
 			con = DriverManager.getConnection("jdbc:mysql://mysql:4567/ascenter","coldbrew","jaehoon");
 			stmt =con.createStatement();
 			ResultSet rs = stmt.executeQuery(SQL);

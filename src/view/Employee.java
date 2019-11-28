@@ -33,7 +33,20 @@ public class Employee extends JFrame{
 	public String msg = "";
 	public String[][] contents = null;
 	public String[] header = null;
-
+	
+	// table refresh
+ public void jTableRefresh(){
+	 @SuppressWarnings("serial")
+		DefaultTableModel tableModel = new DefaultTableModel(contents, header) {
+			@Override
+		    public boolean isCellEditable(int row, int column) {
+		       //all cells false
+		       return false;
+		    }
+		};
+		table.setModel(tableModel);  
+ 	}
+ 
 	// 부서 정보 보기
 	public JPanel showEmp() {
 		aboutEmployee aE = new aboutEmployee();
@@ -107,12 +120,11 @@ public class Employee extends JFrame{
 					if( contents == null ) {
 						// nothing
 						myModel.fireTableDataChanged();
-						table.revalidate();
-						table.repaint();
+						jTableRefresh();
 					}
 					else {
 						myModel.fireTableDataChanged();
-						
+						jTableRefresh();
 					}
 				}
 			}
